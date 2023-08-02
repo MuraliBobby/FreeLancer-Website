@@ -17,11 +17,9 @@
           <div class="col-auto my-auto">
             <div class="h-100">
               <h5 class="mb-1">
-                Alec Thompson
+                {{$details->name}}
               </h5>
-              <p class="mb-0 font-weight-bold text-sm">
-                CEO / Co-Founder
-              </p>
+              
             </div>
           </div>
           <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
@@ -126,10 +124,10 @@
                 <li class="list-group-item border-0 px-0">
                   <div class="form-check form-switch ps-0">
                     <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault3">
-                    <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault3">New launches and projects</label>
+                    <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault3">New projects</label>
                   </div>
                 </li>
-                <li class="list-group-item border-0 px-0">
+                <!-- <li class="list-group-item border-0 px-0">
                   <div class="form-check form-switch ps-0">
                     <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault4" checked>
                     <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault4">Monthly product updates</label>
@@ -140,7 +138,7 @@
                     <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault5">
                     <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault5">Subscribe to newsletter</label>
                   </div>
-                </li>
+                </li> -->
               </ul>
             </div>
           </div>
@@ -153,7 +151,7 @@
                   <h6 class="mb-0">Profile Information</h6>
                 </div>
                 <div class="col-md-4 text-end">
-                  <a href="javascript:;">
+                  <a href="{{route('editUserDetails')}}">
                     <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Profile"></i>
                   </a>
                 </div>
@@ -161,14 +159,20 @@
             </div>
             <div class="card-body p-3">
               <p class="text-sm">
-                Hi, I’m Alec Thompson, Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality).
+                {{$details->about_me}}
               </p>
               <hr class="horizontal gray-light my-4">
               <ul class="list-group">
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Full Name:</strong> &nbsp; Alec M. Thompson</li>
-                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Mobile:</strong> &nbsp; (44) 123 1234 123</li>
-                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp; alecthompson@mail.com</li>
-                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Location:</strong> &nbsp; USA</li>
+                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Full Name:</strong> &nbsp;{{$details->name}}</li>
+                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Mobile:</strong> &nbsp; {{$details->phone}}</li>
+                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp; {{$details->email}}</li>
+                @if ($details->resume_path)
+                  <a href="{{ Storage::url($details->resume_path) }}" target="_blank" class="btn btn-primary">View Resume</a>
+                @else
+                  <p>No resume uploaded</p>
+                @endif
+
+                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Skills:</strong> &nbsp;{{$details->skills}}</li>
                 <li class="list-group-item border-0 ps-0 pb-0">
                   <strong class="text-dark text-sm">Social:</strong> &nbsp;
                   <a class="btn btn-facebook btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
@@ -250,7 +254,7 @@
           <div class="card mb-4">
             <div class="card-header pb-0 p-3">
               <h6 class="mb-1">Projects</h6>
-              <p class="text-sm">Architects design houses</p>
+              
             </div>
             <div class="card-body p-3">
               <div class="row">

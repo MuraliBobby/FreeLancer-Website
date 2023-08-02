@@ -46,5 +46,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getResumeUrlAttribute()
+    {
+        if ($this->resume_path) {
+            return asset('storage/' . $this->resume_path);
+        }
+
+        return null;
+    }
     
 }

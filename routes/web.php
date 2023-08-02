@@ -10,6 +10,8 @@ use App\Http\Controllers\SessionsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,12 +23,14 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/details',[UserDetails::class,'displayForm'])->name('display_form');
-Route::post('/submitdetails',[UserDetails::class,'submitForm'])->name('submit_details');
 
 Route::group(['middleware' => 'auth'], function () {
 
-	
+	Route::get('/details',[UserDetails::class,'displayForm'])->name('display_form');
+	Route::post('/submitdetails',[UserDetails::class,'submitForm'])->name('submit_details');
+	Route::get('/editdetails',[UserDetails::class,'editDetails'])->name('editUserDetails');
+	Route::get('/dashboard', [UserDetails::class, 'passDetails'])->name('passDetails');
+	Route::get('/view-resume/{user}', 'UserController@viewResume')->name('view.resume');
     Route::get('/', [HomeController::class, 'home']);
 	Route::get('dashboard', function () {
 		return view('dashboard');
@@ -37,6 +41,14 @@ Route::group(['middleware' => 'auth'], function () {
 	})->name('billing');
 
 	Route::get('profile', function () {
+
+		$user = Auth::user();
+        $details = User::where('id',$user->id)->first();;
+
+        return view('profile',[
+            'details'=>$details,
+        ]);
+
 		return view('profile');
 	})->name('profile');
 

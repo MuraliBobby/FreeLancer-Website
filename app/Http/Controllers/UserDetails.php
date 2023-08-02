@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 class UserDetails extends Controller
 {
     //
@@ -30,5 +31,37 @@ class UserDetails extends Controller
         }
 
         return redirect('/dashboard');
+    }
+
+    public function editdetails(){
+        return view('laravel-examples.user-profile');
+    }
+
+    public function passDetails(){
+        $user = Auth::user();
+        $details = User::where('id',$user->id);
+
+        return view('profile',[
+            'details'=>$details,
+        ]);
+    }
+
+    public function viewResume(User $user)
+    {
+        // Check if the user has uploaded a resume
+        if (!$user->resume_path) {
+            abort(404);
+        }
+
+        // Get the file path
+        $filePath = 'storage/' . $user->resume_path;
+
+        // Check if the file exists in storage
+        if (!Storage::exists($filePath)) {
+            abort(404);
+        }
+
+        // Return the response to display the resume
+        return response()->file(storage_path($filePath));
     }
 }
