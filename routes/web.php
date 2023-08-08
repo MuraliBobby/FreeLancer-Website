@@ -3,10 +3,12 @@
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InfoUserController;
+use App\Http\Controllers\jobsController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserDetails;
 use App\Http\Controllers\ResetController;
 use App\Http\Controllers\SessionsController;
+use App\Models\jobs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +26,24 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+Route::get('find-jobs',function(){
+
+	$jobImages = ['home-decor-1.jpg', 'home-decor-2.jpg', 'home-decor-3.jpg','home-decor-4.jpg'];
+	$jobs = jobs::where('assigned', false)->get();
+
+	$user = Auth::user();
+
+	// Get the notifications for the user
+	$notifications = $user->notifications;
+
+	return view('findjob', [
+		'jobs' => $jobs,
+		'jobImages' => $jobImages,
+		'notifications' => $notifications
+	]);
+});
+
+
 Route::group(['middleware' => 'auth'], function () {
 
 	Route::get('/details',[UserDetails::class,'displayForm'])->name('display_form');
@@ -32,7 +52,32 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/dashboard', [UserDetails::class, 'passDetails'])->name('passDetails');
 	Route::get('/view-resume/{user}', 'UserController@viewResume')->name('view.resume');
     Route::get('/', [HomeController::class, 'home']);
+	Route::get('/addjob',[jobsController::class,'displayForm'])->name('display_jobs_form');
+	Route::post('/addjob',[jobsController::class,'createJob'])->name('create_job');
+	Route::delete('/deletejobs/{id}', [jobsController::class,'delete'])->name('delete_job');
+	Route::get('/editjob/{id}',[jobsController::class,'editjob'])->name('edit_job');
+	Route::post('/updatejob/{id}',[jobsController::class,'updatejob'])->name('update_job');
+	Route::post('/takejob/{id}',[jobsController::class,'notifyissuer'])->name('take_job');
+	Route::post('/acceptjob/{details}',[jobsController::class,'acceptjob'])->name('accept_job');
+	
+
+	
+
 	Route::get('dashboard', function () {
+
+		$user = Auth::user();
+
+		// Get the notifications for the user
+		$notifications = $user->notifications;
+
+
+		
+		$totalJobs = jobs::count();
+    	return view('dashboard', [
+			'totalJobs' => $totalJobs,
+			'notifications' => $notifications
+		]);
+
 		return view('dashboard');
 	})->name('dashboard');
 
@@ -43,10 +88,13 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('profile', function () {
 
 		$user = Auth::user();
-        $details = User::where('id',$user->id)->first();;
+        $details = User::where('id',$user->id)->first();
+
+		$notifications = $user->notifications;
 
         return view('profile',[
             'details'=>$details,
+			'notifications'=> $notifications
         ]);
 
 		return view('profile');
@@ -56,7 +104,17 @@ Route::group(['middleware' => 'auth'], function () {
 		return view('rtl');
 	})->name('rtl');
 
-	Route::get('user-management', function () {
+	Route::get('add-jobs', function () {
+
+		$user = Auth::user();
+
+		// Get the notifications for the user
+		$notifications = $user->notifications;
+
+		$userJobs = jobs::where('issuer_email', Auth::user()->email)->get();
+
+        return view('laravel-examples/user-management', ['userJobs' => $userJobs, 'notifications'=>$notifications]);
+
 		return view('laravel-examples/user-management');
 	})->name('user-management');
 

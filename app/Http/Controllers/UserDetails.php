@@ -10,6 +10,7 @@ class UserDetails extends Controller
     //
 
     public function displayForm(){
+        
         return view('userdetails');
     }
     public function submitForm(Request $request){
@@ -34,7 +35,12 @@ class UserDetails extends Controller
     }
 
     public function editdetails(){
-        return view('laravel-examples.user-profile');
+        $user = Auth::user();
+	    $notifications = $user->notifications;
+
+        return view('laravel-examples.user-profile',[
+            'notifications'=>$notifications
+        ]);
     }
 
     public function passDetails(){

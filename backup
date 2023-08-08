@@ -1,0 +1,33 @@
+@forelse ($notifications as $notification)
+                    <li>
+                        {{ $notification->data['message'] }}
+                        <form action="" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit">Mark as Read</button>
+                        </form>
+                    </li>
+                @empty
+                    <li>No new notifications</li>
+                @endforelse
+
+
+
+            <!-- Modal Body -->
+            <div class="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50">
+                <div class="flex w-3/4 h-3/4 bg-white rounded-lg overflow-hidden">
+                    <div class="w-1/2 p-4 bg-blue-500 text-white">
+                        <!-- Add user details here -->
+                        <h5 class="modal-title">{{ $notification->data['user_name'] }}</h5>
+                        <p>{{ $notification->data['user_about'] }}</p>
+                        <p><span style="font-weight:bold">Email:</span> {{ $notification->data['user_email'] }}</p>
+                        <p><span style="font-weight:bold">Phone:</span> {{ $notification->data['user_phone'] }}</p>
+                    </div>
+                    <div class="w-1/2 p-4 bg-green-500 text-white">
+                        <!-- Add job details here -->
+                        <p>{{ $notification->data['job_description'] }}</p>
+                        <p><span style="font-weight:bold">Skills Required:</span> {{ $notification->data['skills_required'] }}</p>
+                        <p><span style="font-weight:bold">Reward:</span> $5000</p>
+                    </div>
+                </div>
+            </div>

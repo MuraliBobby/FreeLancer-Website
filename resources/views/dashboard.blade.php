@@ -31,9 +31,9 @@
           <div class="row">
             <div class="col-8">
               <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Users</p>
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Available Jobs</p>
                 <h5 class="font-weight-bolder mb-0">
-                  2,300
+                  {{$totalJobs}}
                   <span class="text-success text-sm font-weight-bolder">+3%</span>
                 </h5>
               </div>
@@ -84,7 +84,7 @@
             </div>
             <div class="col-4 text-end">
               <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
+                <i class="ni ni-bell-55 text-lg opacity-10" aria-hidden="true"></i>
               </div>
             </div>
           </div>
