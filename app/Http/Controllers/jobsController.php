@@ -99,7 +99,7 @@ class jobsController extends Controller
         $issuerUser->notify(new JobInterestNotification($job,$user));
     }
 
-    public function acceptjob(Request $request, $details){
+    public function acceptjob(Request $request){
         
         // dd($request);
         jobs::where('id',$request->job_id)->update([
@@ -114,8 +114,10 @@ class jobsController extends Controller
 
         $job = jobs::findOrFail($request->job_id);
         $issuerUser = Auth::user();
-        $worker->notify(new JobResponseNotification($response,$job,$issuerUser));
+        $worker->notify(new JobResponseNotification($response,$job,$issuerUser,$worker));
 
     }
+
+  
 
 }

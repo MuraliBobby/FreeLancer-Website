@@ -44,6 +44,16 @@ Route::get('find-jobs',function(){
 });
 
 
+Route::get('my-jobs',function(){
+
+	$user = Auth::user();
+	$notifications = $user->notifications;
+    $assignedJobs = jobs::where('worker_email', $user->email)->get();
+
+    return view('myjobs', compact('assignedJobs','notifications'));
+});
+
+
 Route::group(['middleware' => 'auth'], function () {
 
 	Route::get('/details',[UserDetails::class,'displayForm'])->name('display_form');
@@ -58,8 +68,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/editjob/{id}',[jobsController::class,'editjob'])->name('edit_job');
 	Route::post('/updatejob/{id}',[jobsController::class,'updatejob'])->name('update_job');
 	Route::post('/takejob/{id}',[jobsController::class,'notifyissuer'])->name('take_job');
-	Route::post('/acceptjob/{details}',[jobsController::class,'acceptjob'])->name('accept_job');
-	
+	Route::post('/acceptjob',[jobsController::class,'acceptjob'])->name('accept_job');
+
+	// Route::get('/getnotification/{id}',[jobsController::class,'getnotification'])->name('getnotification');
 
 	
 

@@ -17,12 +17,14 @@ class JobResponseNotification extends Notification
     protected $job;
     protected $response;
     protected $issuerUser;
-    public function __construct( $response,$job,$issuerUser)
+    protected $worker;
+    public function __construct( $response,$job,$issuerUser,$worker)
     {
         //
         $this->response = $response;
         $this->job = $job;
         $this->issuerUser = $issuerUser;
+        $this->worker = $worker;
     }
 
     
@@ -46,6 +48,12 @@ class JobResponseNotification extends Notification
                 'issuer_name' =>  $this->issuerUser->name,
                 'issuer_email'=>  $this->issuerUser->email,
                 'issuer_phone'=>  $this->issuerUser->phone,
+                'user_id' => $this->worker->id,
+                'user_name' => $this->worker->name,
+                'user_email'=> $this->worker->email,
+                'user_phone'=> $this->worker->phone,
+                'user_about'=> $this->worker->about_me,
+                'user_resume'=> $this->worker->resume_path,
                 'type'=>'response'
             ];
         }
