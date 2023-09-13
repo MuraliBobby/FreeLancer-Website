@@ -26,34 +26,6 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('find-jobs',function(){
-
-	$jobImages = ['home-decor-1.jpg', 'home-decor-2.jpg', 'home-decor-3.jpg','home-decor-4.jpg'];
-	$jobs = jobs::where('assigned', false)->get();
-
-	$user = Auth::user();
-
-	// Get the notifications for the user
-	$notifications = $user->notifications;
-
-	return view('findjob', [
-		'jobs' => $jobs,
-		'jobImages' => $jobImages,
-		'notifications' => $notifications
-	]);
-});
-
-
-Route::get('my-jobs',function(){
-
-	$user = Auth::user();
-	$notifications = $user->notifications;
-    $assignedJobs = jobs::where('worker_email', $user->email)->get();
-
-    return view('myjobs', compact('assignedJobs','notifications'));
-});
-
-
 Route::group(['middleware' => 'auth'], function () {
 
 	Route::get('/details',[UserDetails::class,'displayForm'])->name('display_form');
@@ -73,21 +45,52 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/showuserdetails/{user_id}/{job_id}',[jobsController::class,'showUserDetails'])->name('showUserDetails');
 	// Route::get('/getnotification/{id}',[jobsController::class,'getnotification'])->name('getnotification');
 
+	Route::get('find-jobs',function(){
+
+		$jobImages = ['home-decor-1.jpg', 'home-decor-2.jpg', 'home-decor-3.jpg','home-decor-4.jpg'];
+		$jobs = jobs::where('assigned', false)->get();
+	
+		$user = Auth::user();
+	
+		// Get the notifications for the user
+		$notifications = $user->notifications;
+	
+		return view('findjob', [
+			'jobs' => $jobs,
+			'jobImages' => $jobImages,
+			'notifications' => $notifications
+		]);
+	});
+	
+	
+	Route::get('my-jobs',function(){
+	
+		$user = Auth::user();
+		$notifications = $user->notifications;
+		$assignedJobs = jobs::where('worker_email', $user->email)->get();
+	
+		return view('myjobs', compact('assignedJobs','notifications'));
+	});
+
 	
 
 	Route::get('dashboard', function () {
 
 		$user = Auth::user();
-
 		// Get the notifications for the user
-		$notifications = $user->notifications;
-
-
-		
+		$notifications = $user->notifications;		
 		$totalJobs = jobs::count();
+		$availableJobs = jobs::where('assigned',0)->count();
+		$completedJobs = jobs::where([
+			'worker_email' => $user->email,
+			'progress' => 'completed'
+		])->count();
+
     	return view('dashboard', [
 			'totalJobs' => $totalJobs,
-			'notifications' => $notifications
+			'availableJobs' => $availableJobs,
+			'notifications' => $notifications,
+			'completedJobs'=> $completedJobs
 		]);
 
 		return view('dashboard');

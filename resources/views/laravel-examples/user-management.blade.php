@@ -46,6 +46,9 @@
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Action
                                     </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        View Status
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -79,12 +82,18 @@
                                         <a href="{{route('edit_job',['id'=>$job->id])}}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Edit job">
                                             <i class="fas fa-user-edit text-secondary"></i>
                                         </a>
-                                        
+                
                                         <form action="{{ route('delete_job', ['id' => $job->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this job?')">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="cursor-pointer fas fa-trash text-secondary border-0 bg-transparent"></button>
+                                            <button type="submit" class="cursor-pointer fas fa-trash text-secondary border-0 bg-transparent" data-bs-toggle="tooltip" data-bs-original-title="Delete job"></button>
                                         </form>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <a href="" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="View Status">
+                                            <i class="fas fa-eye text-secondary"></i>
+                                        </a>
                                     </td>
                                 </tr>
                                 @endforeach

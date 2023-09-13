@@ -9,16 +9,16 @@
           <div class="row">
             <div class="col-8">
               <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Money</p>
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Available Jobs</p>
                 <h5 class="font-weight-bolder mb-0">
-                  $53,000
-                  <span class="text-success text-sm font-weight-bolder">+55%</span>
+                  {{$availableJobs}}
+                  <!-- <span class="text-success text-sm font-weight-bolder">+55%</span> -->
                 </h5>
               </div>
             </div>
             <div class="col-4 text-end">
               <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                <i class="ni ni-briefcase-24 text-lg opacity-10" aria-hidden="true"></i>
               </div>
             </div>
           </div>
@@ -31,10 +31,10 @@
           <div class="row">
             <div class="col-8">
               <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Available Jobs</p>
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Jobs Created</p>
                 <h5 class="font-weight-bolder mb-0">
                   {{$totalJobs}}
-                  <span class="text-success text-sm font-weight-bolder">+3%</span>
+                  <!-- <span class="text-success text-sm font-weight-bolder">+3%</span> -->
                 </h5>
               </div>
             </div>
@@ -53,10 +53,10 @@
           <div class="row">
             <div class="col-8">
               <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">New Clients</p>
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Completed Jobs</p>
                 <h5 class="font-weight-bolder mb-0">
-                  +3,462
-                  <span class="text-danger text-sm font-weight-bolder">-2%</span>
+                  {{$completedJobs}}
+                  <!-- <span class="text-danger text-sm font-weight-bolder">-2%</span> -->
                 </h5>
               </div>
             </div>
@@ -99,9 +99,9 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="d-flex flex-column h-100">
-                <p class="mb-1 pt-2 text-bold">Built by developers</p>
-                <h5 class="font-weight-bolder">Soft UI Dashboard</h5>
-                <p class="mb-5">From colors, cards, typography to complex elements, you will find the full documentation.</p>
+                <p class="mb-1 pt-2 text-bold">Become a hight rated user</p>
+                <h5 class="font-weight-bolder">Earn rewards with ease</h5>
+                <p class="mb-5">Read our blog to explroe hidden tricks to earn more rewards!</p>
                 <a class="text-body text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;">
                   Read More
                   <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
