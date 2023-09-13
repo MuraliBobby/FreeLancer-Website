@@ -97,6 +97,8 @@ class jobsController extends Controller
 
         // Send the notification to the issuer using the database channel
         $issuerUser->notify(new JobInterestNotification($job,$user));
+
+        return redirect()->back()->with('success', 'Job request sent successfully!');
     }
 
     public function acceptjob(Request $request){
@@ -115,9 +117,33 @@ class jobsController extends Controller
         $job = jobs::findOrFail($request->job_id);
         $issuerUser = Auth::user();
         $worker->notify(new JobResponseNotification($response,$job,$issuerUser,$worker));
-
+        return redirect()->back()->with('success', 'You have accepted the job request!');
     }
 
-  
 
+    public function rejectjob(Request $request){
+        
+        // dd($request);
+        $response = "rejected";
+        $worker_email = $request->worker_email;
+        
+        $worker = User::where('email',$worker_email)->first();
+
+        $job = jobs::findOrFail($request->job_id);
+        $issuerUser = Auth::user();
+        $worker->notify(new JobResponseNotification($response,$job,$issuerUser,$worker));
+        return redirect()->back()->with('failure', 'You have declined the job request!');
+    }
+
+
+    public function showUserDetails($user_id, $job_id){
+        $user = User::where('id', $user_id)->first();
+        $job = jobs::where('id', $job_id)->first();
+        $notifications = $user->notifications;
+        return view('UserAndJobDetails',[
+            'user' => $user,
+            'job' =>$job,
+            'notifications'=> $notifications
+        ]);
+    }   
 }

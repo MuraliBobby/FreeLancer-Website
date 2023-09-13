@@ -56,7 +56,7 @@
 
                 @if($notification->data['type'] == "request")
                 <li class="mb-2">
-                    <a class="dropdown-item border-radius-md" href="" data-bs-toggle="modal" data-bs-target="#notificationPopup" >
+                    <a class="dropdown-item border-radius-md" href=""  data-bs-toggle="modal" data-bs-target="#notificationPopup{{ $notification->id }}" >
                         <div class="d-flex py-1">
                             <div class="my-auto">
                                 <img src="../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
@@ -108,14 +108,15 @@
 </nav>
 
 
-@if($notifications->count()>0)
+@if($notifications->count() > 0)
+@foreach($notifications as $notification)
 <!-- The modal -->
-<div class="modal fade" id="notificationPopup" tabindex="-1" aria-labelledby="notificationPopupLabel" aria-hidden="true">
+<div class="modal fade" id="notificationPopup{{ $notification->id }}" tabindex="-1" aria-labelledby="notificationPopupLabel{{ $notification->id }}" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-                <h5 class="modal-title" id="notificationPopupLabel">{{ $notification->data['job_name'] }}</h5>
+                <h5 class="modal-title" id="notificationPopupLabel{{ $notification->id }}">{{ $notification->data['job_name'] }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <!-- Modal Body -->
@@ -148,14 +149,34 @@
                     <input type="hidden" name="job_id" value="{{ $notification->data['job_id'] }}">
                     <button type="submit" class="btn btn-success">Accept Request</button>
                 </form>
-                <button type="button" class="btn btn-danger">Deny Request</button>
+
+                <form action="{{route('reject_job')}}" method="POST">
+                    @csrf
+                    <input type="hidden" name="worker_email" value="{{ $notification->data['user_email'] }}">
+                    <input type="hidden" name="job_id" value="{{ $notification->data['job_id'] }}">
+                    <button type="submit" class="btn btn-danger">Reject Request</button>
+                </form>
+
+                <!-- <button type="button" class="btn btn-danger">Deny Request</button> -->
             </div>
         </div>
     </div>
 </div>
-
-
+@endforeach
 @endif
+
+@if(session('success'))
+<div class="alert alert-success">
+    {{ session('success') }}
+</div>
+@endif
+
+@if(session('failure'))
+<div class="alert alert-danger">
+    {{ session('failure') }}
+</div>
+@endif
+
 
 
 

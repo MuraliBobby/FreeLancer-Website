@@ -69,7 +69,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/updatejob/{id}',[jobsController::class,'updatejob'])->name('update_job');
 	Route::post('/takejob/{id}',[jobsController::class,'notifyissuer'])->name('take_job');
 	Route::post('/acceptjob',[jobsController::class,'acceptjob'])->name('accept_job');
-
+	Route::post('/rejectjob',[jobsController::class,'rejectjob'])->name('reject_job');
+	Route::get('/showuserdetails/{user_id}/{job_id}',[jobsController::class,'showUserDetails'])->name('showUserDetails');
 	// Route::get('/getnotification/{id}',[jobsController::class,'getnotification'])->name('getnotification');
 
 	
